@@ -51,7 +51,9 @@
       </button>
     </div>
     
-    <div class="space5"></div>
+    <div class="space5">
+      <status />
+    </div>
   </div>
 </template>
 
@@ -59,6 +61,7 @@
 import HomeIcon from '@/components/HomeIcon'
 import ToggleIcon from '@/components/ToggleIcon'
 import ProjectIcon from '@/components/ProjectIcon'
+import Status from '@/components/Status'
 
 export default {
   name: 'Home',
@@ -66,7 +69,8 @@ export default {
   components: {
     HomeIcon,
     ToggleIcon,
-    ProjectIcon
+    ProjectIcon,
+    Status,
   },
 
   data() {
@@ -364,13 +368,14 @@ export default {
   &__button:hover &__button-text{
     color: white;
   }
-
 }
 .space5 {
   grid-row: 6/7;
   grid-column: 2/5;
   margin: 10px 0px 0px 10px;
-
+  display :flex;
+  justify-content: center;
+  align-items: center;
   outline: 1px blue solid;
 }
 
