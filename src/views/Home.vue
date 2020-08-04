@@ -43,7 +43,13 @@
       </div>
     </div>
 
-    <div class="space4"></div>
+    <div class="space4">
+      <button class="space4__button" @mouseover="changeStateButton" @mouseout="changeStateButtonDos">
+        <project-icon class="space4__button-icon" v-if="showButton" :color="projectIconColor"/>
+        <project-icon class="space4__button-icon" v-else :color="'#ffffff'"/>
+        <p class="space4__button-text" :color="projectIconColor">NUEVO PROYECTO</p>
+      </button>
+    </div>
     
     <div class="space5"></div>
   </div>
@@ -52,6 +58,7 @@
 <script>
 import HomeIcon from '@/components/HomeIcon'
 import ToggleIcon from '@/components/ToggleIcon'
+import ProjectIcon from '@/components/ProjectIcon'
 
 export default {
   name: 'Home',
@@ -59,18 +66,29 @@ export default {
   components: {
     HomeIcon,
     ToggleIcon,
+    ProjectIcon
   },
 
   data() {
     return {
       homeIconColor: '#615389',
+      projectIconColor: '#615389',
       showBanner: false,
+      showButton: true,
     }
   },
 
   methods: {
     toggleBanner () {
       this.showBanner = !this.showBanner
+    },
+
+    changeStateButton() {
+      this.showButton = false
+    },
+
+    changeStateButtonDos() {
+      this.showButton = true
     }
   },
 
@@ -308,9 +326,45 @@ export default {
 .space4 {
   grid-row: 6/7;
   grid-column: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 10px 10px 0px 0px;
 
-  outline: 1px orange solid;
+  // outline: 1px orange solid;
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 60px;
+    border: 2px $main-color solid;
+    border-radius: 6px;
+    background-color: transparent;
+    transition: background-color .45s;
+
+    &-icon{
+      width: 30px;
+      margin-right: 20px;
+    }
+
+    &-text{
+      font-family: $roboto;
+      font-weight: 700;
+      font-size: 20px;
+      color: $main-color;
+      transition: color .45s;
+
+    }
+  }
+  &__button:hover {
+    background-color: $main-color;
+  }
+  &__button:hover &__button-text{
+    color: white;
+  }
+
 }
 .space5 {
   grid-row: 6/7;
