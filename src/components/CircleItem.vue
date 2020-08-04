@@ -1,7 +1,9 @@
 <template>
   <div class="circle">
-      <p class="circle__message">{{ dataCircle.message }}</p>
-      <div class="circle__item"></div>
+        <p class="circle__message" :class=" this.dataCircle.statusActive ? 'active': ''">
+            {{ dataCircle.message }}
+        </p>    
+      <div class="circle__item" :class=" this.dataCircle.statusActive ? 'active': ''"></div>
   </div>
 </template>
 
@@ -52,7 +54,7 @@ export default {
         height: 100%;
         border-radius: 50%;
         background-color: $secondary-color-contrast;
-        box-shadow: $shadow-button;
+        box-shadow: $shadow-primary;
     }
     &__item.active {
         background-color: $status-color;

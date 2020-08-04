@@ -4,19 +4,28 @@
           <circle-item v-for="(c,index) in circles" :key="index" :data-circle="c" />
       </div>
       <div class="status__bar">
-          <div class="status__bar-item"></div>
+          <bar-item v-for="(b,ind) in bars" :key="`b-${ind}`" :data-bar="b"/>
       </div>
   </div>
 </template>
 
 <script>
 import CircleItem from '@/components/CircleItem'
+import BarItem from '@/components/BarItem'
 
 export default {
     name: 'Status',
 
     components: {
         CircleItem,
+        BarItem,
+    },
+
+    props:{
+        homeActive: {
+            type:Boolean,
+            default: () => '',
+        },
     },
 
     data () {
@@ -38,7 +47,58 @@ export default {
                     message: 'Probar red neuronal',
                     statusActive: false,
                 }
+            ],
+            bars: [ 
+                { 
+                    statusActive: false
+                },
+                { 
+                    statusActive: false
+                },
+                { 
+                    statusActive: false
+                }
             ]
+        }
+    },
+
+    created () {
+        if (this.homeActive) {
+            setInterval(this.autoStateChange,3000)
+        }
+    },
+       
+    methods:{
+        resetStates () {
+            for (let i=1; i<this.circles.length; i++) {
+                this.circles[i].statusActive = false
+                this.bars[i-1].statusActive = false
+
+            }
+        },
+        
+
+        autoStateChange() {
+            for (let i=0; i<this.circles.length; i++) {
+
+                if (this.circles[i].statusActive === false) {
+                    this.circles[i].statusActive = true
+
+                    for (let i=0; i<this.bars.length; i++) {
+                        if (this.bars[i].statusActive === false) {
+                            this.bars[i].statusActive = true
+                            break
+                        }
+                    }
+                    
+                    break
+                }
+                if(this.circles[3].statusActive) {
+                    console.log('cuack')
+                    this.resetStates()
+                    break
+                }
+            }
         }
     }
 }
@@ -46,13 +106,30 @@ export default {
 
 <style lang="scss" scoped>
 .status {
+    position: relative;
     width: 100%;
     margin: 0px 60px;
     // outline: 1px solid red;
 
     &__circles {
+        position: relative;
+        z-index: 20;
+        width: 100%;
         display: flex;
         justify-content: space-between;
+    }
+
+    &__bar {
+        position: absolute;
+        z-index: 10;
+        top:50%;
+        display: flex;
+        
+        width: 100%;
+        height: 10px;
+        transform: translateY(-50%);
+        background: #F9F9F9;
+        box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.4);
     }
 }
 </style>

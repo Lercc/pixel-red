@@ -52,7 +52,7 @@
     </div>
     
     <div class="space5">
-      <status />
+      <status :home-active="true"/>
     </div>
   </div>
 </template>
@@ -376,7 +376,7 @@ export default {
   display :flex;
   justify-content: center;
   align-items: center;
-  outline: 1px blue solid;
+  // outline: 1px blue solid;
 }
 
 </style>
