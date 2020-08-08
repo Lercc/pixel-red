@@ -1,6 +1,6 @@
 <template>
   <div class="circle">
-        <p class="circle__message" :class=" this.dataCircle.statusActive ? 'active': ''">
+        <p class="circle__message" :class=" this.dataCircle.statusMessageActive ? 'active': ''">
             {{ dataCircle.message }}
         </p>    
       <div class="circle__item" :class=" this.dataCircle.statusActive ? 'active': ''"></div>

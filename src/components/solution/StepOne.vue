@@ -3,25 +3,25 @@
     <div class="step-one-entry">
         <div class="step-one-entry-item">
           <label >N° de neuronas en la capa de entrada</label>
-          <input type="number" min="1" v-model.number="entrada">
+          <input type="number" min="1" v-model.number="entrada" :disabled="isDisabled" :style=" isDisabled ? `border-color: gray;background-color: lightgrey` : ''">
         </div>
 
         <div class="step-one-entry-item">
             <label >N° de neuronas en la capa oculta</label>
-            <input type="number" min="1" v-model.number="escondida">
+            <input type="number" min="1" v-model.number="escondida" :disabled="isDisabled" :style=" isDisabled ? `border-color: gray;background-color: lightgrey` : ''">
         </div>
 
         <div class="step-one-entry-item">
             <label >N° de neuronas en la capa de salida</label>
-            <input type="number" min="1" v-model.number="salida">
+            <input type="number" min="1" v-model.number="salida" :disabled="isDisabled" :style=" isDisabled ? `border-color: gray;background-color: lightgrey` : ''">
         </div>
 
         <div class="step-one-entry-item">
             <label >N° de patrones de entrenamiento</label>
-            <input type="number" min="1" v-model.number="patrones">
+            <input type="number" min="1" v-model.number="patrones" :disabled="isDisabled" :style=" isDisabled ? `border-color: gray;background-color: lightgrey` : ''">
         </div>
 
-        <button>Continuar</button>
+        <button @click="stepOneFinished" :disabled="isDisabled" :style="isDisabled ? `border-color: grey;background-color: lightgrey; color: gray` : ''">Continuar</button>
     </div>
       
   </div>
@@ -37,6 +37,8 @@ export default {
             escondida: '',
             salida: '',
             patrones: '',
+            //
+            isDisabled: false,
         }
     },
 
@@ -53,7 +55,17 @@ export default {
         patrones() {
             this.$emit('patrones',this.patrones)
         },
+    },
+
+    methods: {
+        stepOneFinished() {
+            if(this.entrada && this.escondida && this.salida && this.patrones) {
+                this.isDisabled = true
+                this.$emit('changeComponent','two',1, 1)
+            }
+        }
     }
+
 }
 </script>
 

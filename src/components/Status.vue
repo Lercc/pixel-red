@@ -26,6 +26,21 @@ export default {
             type:Boolean,
             default: () => '',
         },
+        
+        circleStatus: {
+            type: Array,
+            default: () => []
+        },
+
+        barStatus: {
+            type: Array,
+            default: () => []
+        },
+
+        messageStatus: {
+            type: Array,
+            default: () => []
+        },
     },
 
     data () {
@@ -33,33 +48,37 @@ export default {
             circles: [
                 {
                     message: 'Ingresar número de neuronas',
-                    statusActive: false,
+                    statusActive: this.circleStatus[0] || false,
+                    statusMessageActive: this.messageStatus[0] || false,
                 },
                 {
                     message: 'Ingresar patrones de entrenamiento',
-                    statusActive: false,
+                    statusActive: this.circleStatus[1] || false,
+                    statusMessageActive: this.messageStatus[1] || false,
                 },
                 {
                     message: 'Entrenar red neuronal',
-                    statusActive: false,
+                    statusActive: this.circleStatus[2] || false,
+                    statusMessageActive: this.messageStatus[2] || false,
                 },
                 {
                     message: 'Probar red neuronal',
-                    statusActive: false,
+                    statusActive: this.circleStatus[3] || false,
+                    statusMessageActive: this.messageStatus[3] || false,
                 }
             ],
             bars: [ 
                 { 
-                    statusActive: false
+                    statusActive: this.barStatus[0] || false
                 },
                 { 
-                    statusActive: false
+                    statusActive: this.barStatus[1] || false
                 },
                 { 
-                    statusActive: false
+                    statusActive: this.barStatus[2] || false
                 },
                 { 
-                    statusActive: false
+                    statusActive: this.barStatus[3] || false
                 }
             ]
         }
@@ -75,6 +94,7 @@ export default {
         resetStates () {
             for (let i=0; i<this.circles.length; i++) {
                 this.circles[i].statusActive = false
+                this.circles[i].statusMessageActive = false
                 this.bars[i].statusActive = false
 
             }
@@ -86,6 +106,7 @@ export default {
 
                 if (this.circles[i].statusActive === false) {
                     this.circles[i].statusActive = true
+                    this.circles[i].statusMessageActive = true
 
                     for (let i=0; i<this.bars.length; i++) {
                         if (this.bars[i].statusActive === false) {

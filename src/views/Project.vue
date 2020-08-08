@@ -26,6 +26,7 @@
               @escondidas="(e) => this.numNeurEscondidas= e"
               @salidas="(e) => this.numNeurSalida= e"
               @patrones="(e) => this.numPatronesEntrenamiento= e"
+              @changeComponent="changeCurrentComponen"
               
               />
             </keep-alive>
@@ -61,7 +62,7 @@
     </div>
     
     <div class="space5">
-      <status :home-active="false" />
+      <status :home-active="false" :circle-status="circleStatus" :bar-status="barStatus" :message-status="messageStatus" ref="status"/>
     </div>
   </div>
 </template>
@@ -97,6 +98,11 @@ export default {
 
   data() {
       return {
+          //
+          circleStatus: [true,false,false,false],
+          barStatus: [true,false,false,false],
+          messageStatus: [true,false,false,false],
+          //
           projectIconColor: '#615389',
           currentComponent: 'one',
           //
@@ -136,9 +142,26 @@ export default {
   },
 
   methods: {
-      changeCurrentComponen (toComponent) {
+      changeCurrentComponen (toComponent, pcircle, pbar) {
+
         this.currentComponent = toComponent
+
+        if( pcircle !== undefined && pbar !== undefined) {
+          //
+          this.$set(this.circleStatus,pcircle,true)
+          this.$set(this.barStatus,pbar,true)
+
+          //
+          this.$refs.status.circles[pcircle].statusActive = true
+          this.$refs.status.circles[pcircle].statusMessageActive = true
+          this.$refs.status.circles[pcircle-1].statusMessageActive = false
+
+          this.$refs.status.bars[pbar].statusActive = true
+
+        }
       }
+
+      
   },
 
   
