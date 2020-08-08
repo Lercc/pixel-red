@@ -28,6 +28,7 @@
               @patrones="(e) => this.numPatronesEntrenamiento= e"
               @changeComponent="changeCurrentComponen"
               
+              :neuro-data="dataToStepTwo"
               />
             </keep-alive>
           </transition>
@@ -62,7 +63,12 @@
     </div>
     
     <div class="space5">
-      <status :home-active="false" :circle-status="circleStatus" :bar-status="barStatus" :message-status="messageStatus" ref="status"/>
+      <status :home-active="false" 
+      :circle-status="circleStatus" 
+      :bar-status="barStatus" 
+      :message-status="messageStatus" ref="status"
+
+      />
     </div>
   </div>
 </template>
@@ -138,6 +144,21 @@ export default {
           }
           return this.w
       },
+
+      dataToStepTwo () {
+        let data = {
+          numNeurEntrada : this.numNeurEntrada,
+          numNeurEscondidas : this.numNeurEscondidas,
+          numNeurSalida : this.numNeurSalida,
+          numPatronesEntrenamiento : this.numPatronesEntrenamiento,
+          w : this.w,
+        }
+
+        if (this.currentComponent === 'two') {
+          return data
+        }
+      }
+
 
   },
 
