@@ -1,8 +1,11 @@
 <template>
   <main class="main">
-    <sidebar />
+    <sidebar :red-sides="idToSidebar" @projectid="setIdProject" />
+    
     <div class="main__content">
-      <router-view />
+      <!-- <keep-alive> -->
+        <router-view :red="redes[projectIdActive]" @preCreated="setIdProject" />
+      <!-- </keep-alive> -->
     </div>
   </main>
 </template>
@@ -16,6 +19,37 @@ export default {
   components: {
     Sidebar,
   },
+
+  data () {
+     return {
+       redes: [
+        {
+          id: '0',
+          name: 'Proyecto 1',
+        },
+        // {
+        //   id: '1',
+        //   name: 'Proyecto 2',
+        // },
+      ],
+
+      projectIdActive: "",
+
+    }
+  },
+ 
+
+  computed: {
+    idToSidebar() {
+      return this.redes.map( m => m.id)
+    }
+  },
+
+  methods: {
+    setIdProject(id) {
+      this.projectIdActive = id
+    },
+  }
 
 }
 </script>

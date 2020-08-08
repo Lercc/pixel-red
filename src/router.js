@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 //
 import Home from '@/views/Home'
+import Project from '@/views/Project'
 
 
 Vue.use(Router)
@@ -10,13 +11,17 @@ Vue.use(Router)
 export default new Router ({
     mode: 'history',
 
-    base: process.env.BASE_URL,
 
     routes: [
         {
-            path: '/',
-            name: 'home',
+            path: "/",
+            name: "home",
             component: Home
+        },
+        {
+            path: "/project/:id",
+            name: "project",
+            component: Project
         }
     ]
 })

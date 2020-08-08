@@ -23,10 +23,11 @@ export default {
     transform: scaleX(0);
     opacity: .5;
     transform-origin: center left;
-    transition: all 1s ease-in-out;
+    transition: all .58s ease-in;
 }
 .bar-item.active {
     transform: scaleX(1);
     opacity: 1;
+    box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.4);
 }
 </style>

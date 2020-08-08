@@ -19,7 +19,7 @@
               :style="this.showBanner ? `transform: rotate(180deg)` :`transform: rotate(0deg)`"/>
             </span>
           </h1>
-          <video class="space2__container-banner-video" src="../assets/img/ia.mp4" autoplay muted loop></video>
+          <video class="space2__container-banner-video" src="../assets/img/ia.mp4" autoplay muted loop controlslist="nodownload"></video>
           <img class="space2__container-banner-image" src="../assets/img/screen.webp">
         </div>
 
@@ -44,7 +44,7 @@
     </div>
 
     <div class="space4">
-      <button class="space4__button" @mouseover="changeStateButton" @mouseout="changeStateButtonDos">
+      <button class="space4__button" @mouseover="changeStateButton" @mouseout="changeStateButtonDos" @click="goToProject">
         <project-icon class="space4__button-icon" v-if="showButton" :color="projectIconColor"/>
         <project-icon class="space4__button-icon" v-else :color="'#ffffff'"/>
         <p class="space4__button-text" :color="projectIconColor">NUEVO PROYECTO</p>
@@ -73,6 +73,13 @@ export default {
     Status,
   },
 
+  props:{
+    red: {
+      type: Object,
+      default: () => {},
+    }
+  },
+
   data() {
     return {
       homeIconColor: '#615389',
@@ -93,6 +100,10 @@ export default {
 
     changeStateButtonDos() {
       this.showButton = true
+    },
+
+    goToProject() {
+      this.$router.push({name:'project', params: {id: '0'} })
     }
   },
 

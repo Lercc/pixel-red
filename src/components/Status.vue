@@ -33,7 +33,7 @@ export default {
             circles: [
                 {
                     message: 'Ingresar número de neuronas',
-                    statusActive: true,
+                    statusActive: false,
                 },
                 {
                     message: 'Ingresar patrones de entrenamiento',
@@ -57,6 +57,9 @@ export default {
                 },
                 { 
                     statusActive: false
+                },
+                { 
+                    statusActive: false
                 }
             ]
         }
@@ -64,15 +67,15 @@ export default {
 
     created () {
         if (this.homeActive) {
-            setInterval(this.autoStateChange,3000)
+            setInterval(this.autoStateChange,2000)
         }
     },
        
     methods:{
         resetStates () {
-            for (let i=1; i<this.circles.length; i++) {
+            for (let i=0; i<this.circles.length; i++) {
                 this.circles[i].statusActive = false
-                this.bars[i-1].statusActive = false
+                this.bars[i].statusActive = false
 
             }
         },
@@ -130,6 +133,10 @@ export default {
         transform: translateY(-50%);
         background: #F9F9F9;
         box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.4);
+    }
+    &__bar :first-child {
+        display: none;
+        // background-color: red;
     }
 }
 </style>

@@ -1,12 +1,16 @@
 <template>
     <div class="sidebar">
         <div class="sidebar__menu">
-            <a class="sidebar__menu-item">
+            <router-link to="/" class="sidebar__menu-item" >
                 <home-icon class="sidebar__menu-item-icon" /> 
-            </a>
-            <a class="sidebar__menu-item">
+            </router-link>
+
+            <!-- <router-link class="sidebar__menu-item" v-for="r in redSides" :key="r"  @click="numProj" :to="{ name: 'project', params:{ id: r} }" >
                 <project-icon class="sidebar__menu-item-icon" /> 
-            </a>
+            </router-link> -->
+            <span class="sidebar__menu-item" v-for="r in redSides" :key="r"  @click="numProj(r)">
+                <project-icon class="sidebar__menu-item-icon" /> 
+            </span>
         </div>
     </div>
 </template>
@@ -21,6 +25,20 @@ export default {
     components: {
         ProjectIcon,
         HomeIcon
+    },
+
+    props: {
+        redSides: {
+            type: Array,
+            default: () => [],
+        }
+    },
+
+    methods: {
+        numProj(r) {
+            this.$emit('projectid',r)
+            this.$router.push({ name: 'project', params:{ id: r} }).catch(err => {})
+        }
     }
 }
 </script>
