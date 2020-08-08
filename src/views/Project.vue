@@ -250,12 +250,12 @@ export default {
     grid-template-columns: 100%;
     width: 100%;
     height: 100%;
-    outline: 1px brown solid;
+    // outline: 1px brown solid;
 
     &-menu {
       display: flex;
       justify-content: space-between;
-      outline: 1px blue solid;
+      // outline: 1px blue solid;
 
       &>li {
         cursor: pointer;
@@ -265,7 +265,7 @@ export default {
     
     &-content {
       overflow: hidden;
-      outline: 1px orange solid;
+      // outline: 1px orange solid;
     }
   }
 }
