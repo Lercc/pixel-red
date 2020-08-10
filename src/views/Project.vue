@@ -10,25 +10,43 @@
 
     <div class="space2">
       <div class="space2__container">
-        <!-- <div class="space2__container-menu" :style="this.showBanner ? 'height:100%' : 'height:40%'"> -->
-        <ul class="space2__container-menu">
-          <li @click="changeCurrentComponen('one')"  >Paso 1</li>
-          <li @click="changeCurrentComponen('two')" >Paso 2</li>
-          <li @click="changeCurrentComponen('three')" >Paso 3</li>
-          <li @click="changeCurrentComponen('four')" >Paso 4</li>
-        </ul>
+        <div class="space2__container-menu">
+          <button 
+          @click="changeCurrentComponen('one')" 
+          :class="{ active : currentComponent === 'one' }"
+          >Datos generales</button>
+
+          <button 
+          @click="changeCurrentComponen('two')" 
+          :class="{ active : currentComponent === 'two' }"
+          :disabled="circleStatus[1]=== false ? true : false"
+          >Patrones de entrenamiento</button>
+          <!-- <li @click="changeCurrentComponen('three')" >Entrenamiento</li> -->
+
+          <button 
+          @click="changeCurrentComponen('four')"
+          :class="{ active : currentComponent === 'four' }"
+          :disabled="circleStatus[3]=== false ? true : false"
+          >Prueba</button>
+        </div>
 
         <div class="space2__container-content">
           <transition name="fade" mode="in-out">
             <keep-alive>
               <component :is="showComponent" 
-              @entradas="(e) => this.numNeurEntrada= e"
-              @escondidas="(e) => this.numNeurEscondidas= e"
-              @salidas="(e) => this.numNeurSalida= e"
-              @patrones="(e) => this.numPatronesEntrenamiento= e"
+              @entradas="(e) => this.numNeurEntrada = e"
+              @escondidas="(e) => this.numNeurEscondidas = e"
+              @salidas="(e) => this.numNeurSalida = e"
+              @patrones="(e) => this.numPatronesEntrenamiento = e"
               @changeComponent="changeCurrentComponen"
+              @dataToStepThree="(x,d,i) => {this.x=x; this.d = d; this.numIteraciones=i}"
+              @dataToStepFour="(e) => this.pesos = e"
+              @showOutputValue="(e) => this.outputValue = e"
               
               :neuro-data="dataToStepTwo"
+              :patern-data="dataToStepThree"
+              :test-data="dataToStepFour"
+
               />
             </keep-alive>
           </transition>
@@ -57,8 +75,8 @@
 
     <div class="space4">
        <div class="space4__container">
-        <project-icon class="space4__container-icon" :color="projectIconColor"/>
-        <p class="space4__container-title">{{ red ? red.name : '' }}</p>
+        <toggle-icon v-show="outputValue ? false : true" class="space4__container-icon" :color="projectIconColor"/>
+        <p class="space4__container-title">{{ outputValue ? outputValue : `Paso ${rename(currentComponent)}` }}</p>
       </div>
     </div>
     
@@ -88,6 +106,7 @@ export default {
 
   components: {
       ProjectIcon,
+      ToggleIcon,
       Status,
       StepOne,
       StepTwo,
@@ -112,13 +131,20 @@ export default {
           projectIconColor: '#615389',
           currentComponent: 'one',
           //
+          outputValue: '',
+          //
           numNeurEntrada: '',
           numNeurEscondidas: '',
           numNeurSalida: '',
           numPatronesEntrenamiento: '',
           numPesosTotales: '',
+          numIteraciones: '',
           //
           w: new Array(),
+          x: new Array(),
+          d: new Array(),
+          //
+          pesos: new Array(),
       }
   },
 
@@ -151,14 +177,35 @@ export default {
           numNeurEscondidas : this.numNeurEscondidas,
           numNeurSalida : this.numNeurSalida,
           numPatronesEntrenamiento : this.numPatronesEntrenamiento,
-          w : this.w,
+          w: this.w,
         }
 
-        if (this.currentComponent === 'two') {
+        if (this.currentComponent === 'two' || this.currentComponent === 'three' || this.currentComponent === 'four') {
           return data
         }
-      }
+      },
 
+      dataToStepThree () {
+        let dataP = {
+          x: this.x,
+          d: this.d,
+          numIteraciones: this.numIteraciones,
+        }
+
+        if(this.currentComponent === 'three') {
+          return dataP
+        }
+      },
+
+      dataToStepFour () {
+        let dataT = {
+          pesos: this.pesos,
+        }
+
+        if(this.currentComponent === 'four') {
+          return dataT
+        }
+      },
 
   },
 
@@ -178,10 +225,20 @@ export default {
           this.$refs.status.circles[pcircle-1].statusMessageActive = false
 
           this.$refs.status.bars[pbar].statusActive = true
+        }
+      },
 
+      rename(value) {
+        if (value === 'one') {
+          return 'uno'
+        }else if (value === 'two') {
+          return 'dos'
+        }else if (value === 'three') {
+          return 'tres'
+        }else if (value === 'four') {
+          return 'cuatro'
         }
       }
-
       
   },
 
@@ -255,12 +312,38 @@ export default {
     &-menu {
       display: flex;
       justify-content: space-between;
-      // outline: 1px blue solid;
 
-      &>li {
-        cursor: pointer;
-        color: gray;
+      
+      &>button {
+      font-family: $roboto;
+      font-size: 22px;
+      font-weight: 500;
+      color: rgb(204, 205, 221);
+      cursor: pointer;
+      outline: none;
+      border: none;
+      background-color: transparent;
+      transition: all .35s;
+
+        @include desktop($bp-lg-1) {
+          font-size: 16px;
+          padding: 0px 0px 5px;
+        }
+        @include range($bp-lg-1,$bp-lg-2) {
+          font-size: 18px;
+          padding: 5px 0px 15px;
+        }
+        @include range($bp-lg-1,1800px) {
+          font-size: 20px;
+          padding: 0px 0px 15px;
+        }
+      
       }
+
+      &>button:hover, &>button.active {
+      color: $main-color;
+      }
+      
     }
     
     &-content {
@@ -373,11 +456,12 @@ export default {
     &-icon {
       height: 30px;
       margin-right: 20px ;
+      transform: rotate(-90deg);
     }
 
     &-title {
       font-family: $roboto;
-      font-size: 30px;
+      font-size: 20px;
       font-weight: 700;
       color: $main-color;
     }
@@ -393,16 +477,6 @@ export default {
   // outline: 1px blue solid;
 }
 
-//  .component-fade-leave-active {
-//   transition: all .45s ease;
-//   transform: translateX(100%);
-// }
-// .component-fade-enter
-// /* .component-fade-leave-active below version 2.1.8 */ {
-//   opacity: 0;
-//   transform: translateX(-100%);
-
-// }
 .fade-enter-active, .fade-leave-active{
   transition: all 0.45s;
 }

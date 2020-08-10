@@ -125,7 +125,6 @@ export default {
             height: 50px;
             width: 120px;
             text-align: center;
-
             border: 2px $main-color solid;
             border-radius: 5px;
             background-color: $main-color;
@@ -133,6 +132,8 @@ export default {
             font-family: $roboto;
             font-size: 24px;
             color: white;
+            box-shadow: $shadow-primary;
+            transition: all .25s ease-in-out;
 
             @include desktop($bp-lg-1){
                 font-size: 18px;
@@ -146,6 +147,10 @@ export default {
                 font-size: 22px;
                 line-height: 140%;
             }
+        }
+        &> button:hover {
+            background-color: $status-color-contrast;
+            border: 2px $status-color-contrast solid;
         }
     }
 }

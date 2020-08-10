@@ -2,13 +2,11 @@
     <div class="sidebar">
         <div class="sidebar__menu">
             <router-link to="/" class="sidebar__menu-item" >
-                <home-icon class="sidebar__menu-item-icon" /> 
+                <home-icon @click="deleteProj" class="sidebar__menu-item-icon" /> 
             </router-link>
 
-            <!-- <router-link class="sidebar__menu-item" v-for="r in redSides" :key="r"  @click="numProj" :to="{ name: 'project', params:{ id: r} }" >
-                <project-icon class="sidebar__menu-item-icon" /> 
-            </router-link> -->
-            <span class="sidebar__menu-item" v-for="r in redSides" :key="r"  @click="numProj(r)">
+          
+            <span class="sidebar__menu-item" v-show="projectone" v-for="r in redSides" :key="r"  @click="numProj(r)">
                 <project-icon class="sidebar__menu-item-icon" /> 
             </span>
         </div>
@@ -31,14 +29,23 @@ export default {
         redSides: {
             type: Array,
             default: () => [],
-        }
+        },
+        projectone: {
+            type: Boolean,
+            default: false
+        },
     },
 
     methods: {
         numProj(r) {
             this.$emit('projectid',r)
             this.$router.push({ name: 'project', params:{ id: r} }).catch(err => {})
+        },
+
+        deleteProj() {
+          this.$emit('deleteProj',false)
         }
+
     }
 }
 </script>

@@ -103,6 +103,7 @@ export default {
     },
 
     goToProject() {
+      this.$emit('createProj', true)
       this.$router.push({name:'project', params: {id: '0'} })
     }
   },

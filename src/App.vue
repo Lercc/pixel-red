@@ -1,11 +1,18 @@
 <template>
   <main class="main">
-    <sidebar :red-sides="idToSidebar" @projectid="setIdProject" />
+    <sidebar 
+    :red-sides="idToSidebar" 
+    @projectid="setIdProject"
+    :projectone="projectOne"
+    @deleteProj="(e) => this.projectOne = e"
+    />
     
     <div class="main__content">
-      <!-- <keep-alive> -->
-        <router-view :red="redes[projectIdActive]" @preCreated="setIdProject" />
-      <!-- </keep-alive> -->
+      <router-view 
+      :red="redes[projectIdActive]"
+      @preCreated="setIdProject"
+      @createProj="(e) => this.projectOne = e"
+      />
     </div>
   </main>
 </template>
@@ -34,6 +41,7 @@ export default {
       ],
 
       projectIdActive: "",
+      projectOne: false,
 
     }
   },

@@ -46,7 +46,8 @@ export default {
         background-color: $satatus-color-message;
     }
     &__message.active{
-        transform: translateX(-50%) scale(1)
+        transform: translateX(-50%) scale(1);
+        opacity: .75;
     }
 
     &__item {
